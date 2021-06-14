@@ -14,5 +14,9 @@ RSpec.describe User, type: :model do
       @user.last_name = nil
       expect(@user).to_not be_valid
     end
+
+    it "shows full name of the user" do
+      expect(@user.full_name).to eq('demo demo')
+    end
   end
 end
