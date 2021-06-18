@@ -27,6 +27,7 @@ group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
   gem 'database_cleaner'
+  gem 'factory_bot_rails'
 end
 
 group :development do
