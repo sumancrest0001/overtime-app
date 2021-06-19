@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :update]
+  before_action :set_post, only: [:show, :edit, :update]
   def index
     @posts = Post.all
   end
@@ -19,6 +19,17 @@ class PostsController < ApplicationController
   end
 
   def show
+  end
+
+  def edit
+  end
+
+  def update
+    if @post.update(post_params)
+    redirect_to @post, notice: "You post has been successfully updated."
+    else
+      redirect_to :edit
+    end
   end
 
   private

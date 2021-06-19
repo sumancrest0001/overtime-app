@@ -46,4 +46,24 @@ describe 'navigate' do
       expect(User.last.posts.last.rationale).to eq('user association demo')
     end
   end
+
+  describe 'edit' do
+    before do
+      @post = FactoryBot.create(:post)
+    end
+    it 'can be reached by clicking the edit button' do
+      visit posts_path
+      click_on 'Edit'
+      expect(page.status_code).to eq(200)
+    end
+
+    it 'can be edited' do
+      visit edit_post_path(@post)
+      
+      fill_in 'post[date]', with: Date.today
+      fill_in 'post[rationale]', with: 'Edited content'
+      click_on 'Save'
+      expect(page).to have_content('Edited content')
+    end
+  end
 end
