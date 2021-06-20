@@ -13,4 +13,17 @@
  *= require bootstrap
  *= require_tree .
  *= require_self
+ *= require gritter
  */
+
+.custom_gritter {
+  background-color: green;
+  border-radius: 5px;
+  text-align: center;
+  border: 1px solid white;
+}
+
+.gritter-item-wrapper {
+  position: relative;
+  margin: 0 0 10px 0;
+}
