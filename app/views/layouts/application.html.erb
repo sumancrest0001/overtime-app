@@ -10,6 +10,14 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <%= render 'shared/nav' %>
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+    <%= js add_gritter(flash[:notice], :title => "Overtime App", :sticky => true, :time => 50, :class_name => "custom_gritter") %>
   </body>
 </html>
