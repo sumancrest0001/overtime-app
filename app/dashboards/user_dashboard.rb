@@ -11,10 +11,12 @@ class UserDashboard < Administrate::BaseDashboard
     posts: Field::HasMany,
     id: Field::Number,
     email: Field::String,
-    encrypted_password: Field::String,
-    reset_password_token: Field::String,
-    reset_password_sent_at: Field::DateTime,
-    remember_created_at: Field::DateTime,
+    password: Field::String,
+    sign_in_count: Field::Number,
+    current_sign_in_at: Field::DateTime,
+    last_sign_in_at: Field::DateTime,
+    current_sign_in_ip: Field::String.with_options(searchable: false),
+    last_sign_in_ip: Field::String.with_options(searchable: false),
     first_name: Field::String,
     last_name: Field::String,
     avatar: Field::Text,
@@ -33,7 +35,8 @@ class UserDashboard < Administrate::BaseDashboard
     posts
     id
     email
-    encrypted_password
+    username
+    type
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -42,10 +45,7 @@ class UserDashboard < Administrate::BaseDashboard
     posts
     id
     email
-    encrypted_password
-    reset_password_token
-    reset_password_sent_at
-    remember_created_at
+    password
     first_name
     last_name
     avatar
@@ -59,17 +59,12 @@ class UserDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-    posts
     email
-    encrypted_password
-    reset_password_token
-    reset_password_sent_at
-    remember_created_at
+    password
     first_name
     last_name
     avatar
     username
-    type
   ].freeze
 
   # COLLECTION_FILTERS
