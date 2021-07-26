@@ -13,6 +13,9 @@
     <%= f.label :rationale, class: "col-sm-2 col-form-label" %>
     <%= f.text_area :rationale, class: "form-control", placeholder: "Enter rationale" %>
   </div>
+
+  <%= render partial: 'status', locals: {f: f} if current_user.type == 'AdminUser' %>
+
   <div class="form-group row">
     <%= f.submit "Save", class: "btn btn-primary btn-block" %>
   </div>
