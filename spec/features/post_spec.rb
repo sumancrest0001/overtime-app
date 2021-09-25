@@ -68,11 +68,6 @@ describe 'navigate' do
     before do
       @post = FactoryBot.create(:post)
     end
-    it 'can be reached by clicking the edit button' do
-      visit posts_path
-      click_on 'Edit'
-      expect(page.status_code).to eq(200)
-    end
 
     it 'can be edited' do
       visit edit_post_path(@post)
@@ -81,6 +76,15 @@ describe 'navigate' do
       fill_in 'post[rationale]', with: 'Edited content'
       click_on 'Save'
       expect(page).to have_content('Edited content')
+    end
+
+    it 'can not be edited by non-authorized user' do
+      logout(:user)
+      non_authorize_user = FactoryBot.create(:non_authorize_user)
+      login_as(non_authorize_user, scope: :user)
+      
+      visit edit_post_path(@post)
+      expect(current_path).to eql(root_path)
     end
   end
 end
