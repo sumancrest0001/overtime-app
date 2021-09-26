@@ -13,9 +13,20 @@ describe 'navigate' do
     it 'has a list of Posts' do
       post1 = FactoryBot.create(:post)
       post2 = FactoryBot.create(:second_post)
+      post2.update(user_id: @user.id)
       visit posts_path
-      expect(page).to have_content(/yesterday|now/)
+      expect(page).to have_content(/yesterday/)
     end
+
+    it 'shows only cards created by the card creator' do
+      post1 = Post.create(date: Date.today, rationale: 'Post created by user', user_id: @user.id)
+      post2 = Post.create(date: Date.today, rationale: 'Post created by user', user_id: @user.id)
+      non_authorize_user = User.create(first_name: 'non', last_name: 'authorize', email: 'non123@gmail.com', avatar: 'NonAuthorize', username: 'non0001', password: 'non123', password_confirmation: 'non123')
+      post_from_other_user = Post.create(date: Date.today, rationale: 'Post created by the non authorize user', user_id: non_authorize_user.id)
+      visit posts_path
+      expect(page).not_to have_content(/Post created by the non authorize user/)
+    end
+
     it 'has a title of posts' do
       visit posts_path
       expect(page).to have_content(/rationale/)
@@ -33,6 +44,7 @@ describe 'navigate' do
   describe 'delete' do
     it "can be deleted" do
       post1 = FactoryBot.create(:post)
+      post1.update(user_id: @user.id)
       visit posts_path
       click_link("delete_post_#{post1.id}_from_index")
       expect(page.status_code).to eq(200)

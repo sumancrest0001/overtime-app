@@ -10,4 +10,5 @@ FactoryBot.define do
     rationale {"Demo rationale yesterday"}
     user
   end
+
 end
