@@ -1,9 +1,13 @@
 require 'rails_helper'
 
 describe 'navigate' do
+  let(:user) {FactoryBot.create(:user)}
+  let(:post) do
+    Post.create(date: Date.today, rationale: 'rationale from local user', user_id: user.id)
+  end
+
   before do
-    @user = FactoryBot.create(:second_user)
-    login_as(@user, :scope => :user)
+    login_as(user, :scope => :user)
   end
   describe 'homepage' do
     it 'can be visited successfully' do
@@ -13,14 +17,14 @@ describe 'navigate' do
     it 'has a list of Posts' do
       post1 = FactoryBot.create(:post)
       post2 = FactoryBot.create(:second_post)
-      post2.update(user_id: @user.id)
+      post2.update(user_id: user.id)
       visit posts_path
       expect(page).to have_content(/yesterday/)
     end
 
     it 'shows only cards created by the card creator' do
-      post1 = Post.create(date: Date.today, rationale: 'Post created by user', user_id: @user.id)
-      post2 = Post.create(date: Date.today, rationale: 'Post created by user', user_id: @user.id)
+      post1 = Post.create(date: Date.today, rationale: 'Post created by user', user_id: user.id)
+      post2 = Post.create(date: Date.today, rationale: 'Post created by user', user_id: user.id)
       non_authorize_user = User.create(first_name: 'non', last_name: 'authorize', email: 'non123@gmail.com', avatar: 'NonAuthorize', username: 'non0001', password: 'non123', password_confirmation: 'non123')
       post_from_other_user = Post.create(date: Date.today, rationale: 'Post created by the non authorize user', user_id: non_authorize_user.id)
       visit posts_path
@@ -43,10 +47,15 @@ describe 'navigate' do
 
   describe 'delete' do
     it "can be deleted" do
-      post1 = FactoryBot.create(:post)
-      post1.update(user_id: @user.id)
+      logout(:user)
+
+      delete_user = FactoryBot.create(:user)
+      login_as(delete_user, scope: :user)
+      delete_post = Post.create(date: Date.today, rationale: 'this is a delete rationale', user_id: delete_user.id)
+      
       visit posts_path
-      click_link("delete_post_#{post1.id}_from_index")
+
+      click_link("delete_post_#{delete_post.id}_from_index")
       expect(page.status_code).to eq(200)
     end
   end
@@ -77,12 +86,8 @@ describe 'navigate' do
   end
 
   describe 'edit' do
-    before do
-      @post = FactoryBot.create(:post)
-    end
-
     it 'can be edited' do
-      visit edit_post_path(@post)
+      visit edit_post_path(post)
       
       fill_in 'post[date]', with: Date.today
       fill_in 'post[rationale]', with: 'Edited content'
@@ -95,7 +100,7 @@ describe 'navigate' do
       non_authorize_user = FactoryBot.create(:non_authorize_user)
       login_as(non_authorize_user, scope: :user)
       
-      visit edit_post_path(@post)
+      visit edit_post_path(post)
       expect(current_path).to eql(root_path)
     end
   end
