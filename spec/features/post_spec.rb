@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'navigate' do
   let(:user) {FactoryBot.create(:user)}
   let(:post) do
-    Post.create(date: Date.today, rationale: 'rationale from local user', user_id: user.id)
+    Post.create(date: Date.today, rationale: 'rationale from local user', user_id: user.id, overtime_request: 2.5)
   end
 
   before do
@@ -23,10 +23,10 @@ describe 'navigate' do
     end
 
     it 'shows only cards created by the card creator' do
-      post1 = Post.create(date: Date.today, rationale: 'Post created by user', user_id: user.id)
-      post2 = Post.create(date: Date.today, rationale: 'Post created by user', user_id: user.id)
+      post1 = Post.create(date: Date.today, rationale: 'Post created by user', user_id: user.id, overtime_request: 0.5)
+      post2 = Post.create(date: Date.today, rationale: 'Post created by user', user_id: user.id, overtime_request: 2.5)
       non_authorize_user = User.create(first_name: 'non', last_name: 'authorize', email: 'non123@gmail.com', avatar: 'NonAuthorize', username: 'non0001', password: 'non123', password_confirmation: 'non123')
-      post_from_other_user = Post.create(date: Date.today, rationale: 'Post created by the non authorize user', user_id: non_authorize_user.id)
+      post_from_other_user = Post.create(date: Date.today, rationale: 'Post created by the non authorize user', user_id: non_authorize_user.id, overtime_request: 1.5)
       visit posts_path
       expect(page).not_to have_content(/Post created by the non authorize user/)
     end
@@ -51,7 +51,7 @@ describe 'navigate' do
 
       delete_user = FactoryBot.create(:user)
       login_as(delete_user, scope: :user)
-      delete_post = Post.create(date: Date.today, rationale: 'this is a delete rationale', user_id: delete_user.id)
+      delete_post = Post.create(date: Date.today, rationale: 'this is a delete rationale', user_id: delete_user.id, overtime_request: 0.7)
       
       visit posts_path
 
@@ -71,14 +71,15 @@ describe 'navigate' do
     it "can be created from new form page" do
       fill_in 'post[date]', with: Date.today
       fill_in 'post[rationale]', with: 'Some rationale'
-      click_on "Save"
+      fill_in 'post[overtime_request]', with: 5.5
 
-      expect(page).to have_content("Some rationale")
+      expect {click_on "Save"}.to change(Post, :count).by(1)
     end
 
     it "will have a user assiciated with it" do
       fill_in 'post[date]', with: Date.today
       fill_in 'post[rationale]', with: 'user association demo'
+      fill_in 'post[overtime_request]', with: 2.5
       click_on "Save"
 
       expect(User.last.posts.last.rationale).to eq('user association demo')
