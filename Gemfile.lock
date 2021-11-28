@@ -68,15 +68,10 @@ GEM
       momentjs-rails (~> 2.8)
       sassc-rails (~> 2.1)
       selectize-rails (~> 0.6)
-    autoprefixer-rails (9.8.4)
-      execjs
     bcrypt (3.1.13)
     bindex (0.8.1)
     bootsnap (1.4.6)
       msgpack (~> 1.0)
-    bootstrap-sass (3.3.7)
-      autoprefixer-rails (>= 5.2.1)
-      sass (>= 3.3.4)
     bourbon (7.0.0)
       thor (~> 1.0)
     builder (3.2.4)
@@ -108,7 +103,6 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.4.4)
     erubi (1.10.0)
-    execjs (2.7.0)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -223,11 +217,6 @@ GEM
       rspec-support (~> 3.10)
     rspec-support (3.10.2)
     rubyzip (2.3.0)
-    sass (3.7.4)
-      sass-listen (~> 4.0.0)
-    sass-listen (4.0.0)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
@@ -289,7 +278,6 @@ PLATFORMS
 DEPENDENCIES
   administrate
   bootsnap (>= 1.4.2)
-  bootstrap-sass (~> 3.3, >= 3.3.6)
   bourbon
   byebug
   capybara (>= 2.15)

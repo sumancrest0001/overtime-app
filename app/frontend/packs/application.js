@@ -8,8 +8,8 @@ require("@rails/activestorage").start()
 require("channels")
 require("jquery")
 require("gritter/js/jquery.gritter.js")
-import "bootstrap"
-import "@fortawesome/fontawesome-free/css/all"
+import '../js/bootstrap_js_files.js'
+
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
 // or the `imagePath` JavaScript helper below.

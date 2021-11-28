@@ -6,7 +6,9 @@
       <td><%= post.user.full_name%></td>
       <td><%= status_label post.status %></td>
       <td>
-        <%= link_to "Edit", edit_post_path(post), id: "edit_#{post.id}" if policy(post).update? %>
-        <%= link_to "Delete", post_path(post), method: :delete, data: {confirm: 'Are you sure?'}, id: "delete_post_#{post.id}_from_index" %>
+        <%= link_to '', edit_post_path(post), id: "edit_#{post.id}", class: 'glyphicon glyphicon-pencil' if policy(post).update? %>
+      </td>
+      <td>
+        <%= link_to '', post_path(post), method: :delete, data: {confirm: 'Are you sure?'}, id: "delete_post_#{post.id}_from_index", class: 'glyphicon glyphicon-trash' %>
       </td>
     </tr>
